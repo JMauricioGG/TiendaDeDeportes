@@ -8,7 +8,9 @@
     @vite('resources/css/app.css')
     @livewireStyles
 </head>
+
 <body class="bg-gray-100 min-h-screen">
+<livewire:categoria />
 
     <nav class="bg-white shadow mb-8">
         <div class="max-w-7xl mx-auto px-4 py-4 text-xl font-bold">
