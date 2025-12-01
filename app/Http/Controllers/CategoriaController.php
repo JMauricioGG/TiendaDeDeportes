@@ -24,7 +24,9 @@ class CategoriaController extends Controller
             'nombre' => 'required|string|max:255',
         ]);
 
-        Categoria::create($request->all());
+        Categoria::create([
+            'nombre'=> $request->nombre,
+        ]);
         return redirect()->route('categorias.index')->with('success', 'Categoría creada correctamente.');
     }
 

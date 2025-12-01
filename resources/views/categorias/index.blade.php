@@ -1,0 +1,35 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="d-flex justify-content-between mb-3">
+    <h2>Categorías</h2>
+    <a href="{{ route('categorias.create') }}" class="btn btn-primary">Agregar Categoría</a>
+</div>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($categorias as $categoria)
+        <tr>
+            <td>{{ $categoria->id }}</td>
+            <td>{{ $categoria->nombre }}</td>
+            <td>
+                <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
+
+                <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar categoría?')">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+@endsection

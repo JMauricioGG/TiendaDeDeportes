@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Deportes</title>
-
+    <title>Tienda de Deportes</title>
     @vite('resources/css/app.css')
-    @livewireStyles
 </head>
-
 <body class="bg-gray-100 min-h-screen">
-<livewire:categoria />
 
-    <nav class="bg-white shadow mb-8">
-        <div class="max-w-7xl mx-auto px-4 py-4 text-xl font-bold">
-            Tienda de Deportes
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">Tienda Deportes</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="{{ route('categorias.index') }}">Categorías</a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="max-w-7xl mx-auto px-4">
-        {{ $slot }}
-    </main>
+<div class="container">
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-    @vite('resources/js/app.js')
-    @livewireScripts
+    @yield('content')
+</div>
+
+@vite('resources/js/app.js')
 </body>
 </html>
