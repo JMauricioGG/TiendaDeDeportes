@@ -2,41 +2,47 @@
 <html>
 <head>
     <title>Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>Productos</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">Productos</h1>
 
-@if(session('success'))
-    <p style="color:green;">{{ session('success') }}</p>
-@endif
+    <a href="{{ route('productos.create') }}" class="btn btn-primary mb-3">Crear Producto</a>
 
-<a href="{{ route('productos.create') }}">Crear Producto</a>
-<br><br>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-<table border="1" cellpadding="5">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Acciones</th>
-    </tr>
-    @foreach($productos as $producto)
-    <tr>
-        <td>{{ $producto->id }}</td>
-        <td>{{ $producto->nombre }}</td>
-        <td>{{ $producto->categoria->nombre }}</td>
-        <td>
-            <a href="{{ route('productos.edit', $producto->id) }}">Editar</a>
-            <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('¿Eliminar este producto?')">Eliminar</button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</table>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($productos as $producto)
+            <tr>
+                <td>{{ $producto->id }}</td>
+                <td>{{ $producto->nombre }}</td>
+                <td>{{ $producto->categoria->nombre }}</td>
+                <td>
+                    <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-<a href="{{ route('categorias.index') }}">Ver Categorías</a>
+    <a href="{{ route('categorias.index') }}" class="btn btn-secondary mt-3">Ver Categorías</a>
+</div>
 </body>
 </html>

@@ -2,39 +2,41 @@
 <html>
 <head>
     <title>Categorías</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<h1>Categorías</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">Categorías</h1>
 
-<a href="{{ route('categorias.create') }}">Crear Categoría</a>
+    <a href="{{ route('categorias.create') }}" class="btn btn-primary mb-3">Crear Categoría</a>
 
-@if(session('success'))
-    <p style="color:green;">{{ session('success') }}</p>
-@endif
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($categorias as $categoria)
+            <tr>
+                <td>{{ $categoria->id }}</td>
+                <td>{{ $categoria->nombre }}</td>
+                <td>
+                    <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-<table border="1" cellpadding="5" cellspacing="0">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Acciones</th>
-    </tr>
-    @foreach($categorias as $categoria)
-    <tr>
-        <td>{{ $categoria->id }}</td>
-        <td>{{ $categoria->nombre }}</td>
-        <td>
-            <a href="{{ route('categorias.edit', $categoria->id) }}">Editar</a>
-            <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('¿Eliminar categoría?')">Eliminar</button>
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</table>
-
-<a href="{{ route('productos.index') }}">Ver Productos</a>
-
+    <a href="{{ route('productos.index') }}" class="btn btn-secondary mt-3">Ver Productos</a>
+</div>
 </body>
 </html>
