@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
@@ -21,38 +20,31 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'nombre' => 'required'
         ]);
-
-        Categoria::create([
-            'nombre'=> $request->nombre,
-        ]);
-        return redirect()->route('categorias.index')->with('success', 'Categoría creada correctamente.');
+        Categoria::create($request->all());
+        return redirect()->route('categorias.index')->with('success', 'Categoría creada correctamente');
     }
 
-    public function show(Categoria $categoria)
+    public function edit($id)
     {
-        return view('categorias.show', compact('categoria'));
-    }
-
-    public function edit(Categoria $categoria)
-    {
+        $categoria = Categoria::findOrFail($id);
         return view('categorias.edit', compact('categoria'));
     }
 
-    public function update(Request $request, Categoria $categoria)
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-        ]);
-
-        $categoria->update($request->all());
-        return redirect()->route('categorias.index')->with('success', 'Categoría actualizada correctamente.');
+        $request->validate(['nombre'=>'required']);
+        $categoria = Categoria::findOrFail($id);
+        $categoria->nombre = $request->nombre;
+        $categoria->save();
+        return redirect()->route('categorias.index')->with('success','Categoría actualizada correctamente');
     }
 
-    public function destroy(Categoria $categoria)
+    public function destroy($id)
     {
-        $categoria->delete();
-        return redirect()->route('categorias.index')->with('success', 'Categoría eliminada correctamente.');
+        $categoria = Categoria::findOrFail($id);
+        $categoria->delete(); // si quieres Soft Delete, agrega SoftDeletes al modelo
+        return redirect()->route('categorias.index')->with('success','Categoría eliminada');
     }
 }

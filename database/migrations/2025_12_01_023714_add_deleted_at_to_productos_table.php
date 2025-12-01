@@ -6,22 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('productos', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('productos', function (Blueprint $table) {
+            $table->softDeletes(); // Esto agrega la columna deleted_at
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('productos');
+        Schema::table('productos', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

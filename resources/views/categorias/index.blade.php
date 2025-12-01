@@ -2,41 +2,55 @@
 <html>
 <head>
     <title>Categorías</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container mt-5">
-    <h1 class="mb-4">Categorías</h1>
+<body class="container mt-4">
 
-    <a href="{{ route('categorias.create') }}" class="btn btn-primary mb-3">Crear Categoría</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ route('categorias.index') }}">Tienda Deportes</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="{{ route('categorias.index') }}">Categorías</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('productos.index') }}">Productos</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($categorias as $categoria)
-            <tr>
-                <td>{{ $categoria->id }}</td>
-                <td>{{ $categoria->nombre }}</td>
-                <td>
-                    <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+<h1>Categorías</h1>
 
-    <a href="{{ route('productos.index') }}" class="btn btn-secondary mt-3">Ver Productos</a>
-</div>
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+<a href="{{ route('categorias.create') }}" class="btn btn-primary mb-2">Crear Nueva Categoría</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($categorias as $categoria)
+        <tr>
+            <td>{{ $categoria->id }}</td>
+            <td>{{ $categoria->nombre }}</td>
+            <td>
+                <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar categoría?')">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
 </body>
 </html>
