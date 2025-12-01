@@ -1,18 +1,27 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Categoría</title>
+</head>
+<body>
+<h1>Crear Categoría</h1>
 
-@section('content')
-<h2>Agregar Categoría</h2>
+@if($errors->any())
+    <ul style="color:red;">
+        @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
 
 <form action="{{ route('categorias.store') }}" method="POST">
     @csrf
-    <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input type="text" name="nombre" id="nombre" class="form-control" required>
-        @error('nombre')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-    </div>
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{{ route('categorias.index') }}" class="btn btn-secondary">Cancelar</a>
+    <label>Nombre:</label>
+    <input type="text" name="nombre" value="{{ old('nombre') }}">
+    <button type="submit">Guardar</button>
 </form>
-@endsection
+
+<a href="{{ route('categorias.index') }}">Volver</a>
+
+</body>
+</html>

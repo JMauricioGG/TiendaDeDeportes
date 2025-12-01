@@ -1,35 +1,40 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Categorías</title>
+</head>
+<body>
+<h1>Categorías</h1>
 
-@section('content')
-<div class="d-flex justify-content-between mb-3">
-    <h2>Categorías</h2>
-    <a href="{{ route('categorias.create') }}" class="btn btn-primary">Agregar Categoría</a>
-</div>
+<a href="{{ route('categorias.create') }}">Crear Categoría</a>
 
-<table class="table table-bordered">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($categorias as $categoria)
-        <tr>
-            <td>{{ $categoria->id }}</td>
-            <td>{{ $categoria->nombre }}</td>
-            <td>
-                <a href="{{ route('categorias.edit', $categoria->id) }}" class="btn btn-warning btn-sm">Editar</a>
+@if(session('success'))
+    <p style="color:green;">{{ session('success') }}</p>
+@endif
 
-                <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar categoría?')">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    @foreach($categorias as $categoria)
+    <tr>
+        <td>{{ $categoria->id }}</td>
+        <td>{{ $categoria->nombre }}</td>
+        <td>
+            <a href="{{ route('categorias.edit', $categoria->id) }}">Editar</a>
+            <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('¿Eliminar categoría?')">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    @endforeach
 </table>
-@endsection
+
+<a href="{{ route('productos.index') }}">Ver Productos</a>
+
+</body>
+</html>
