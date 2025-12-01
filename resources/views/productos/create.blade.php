@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout')
 
 @section('title', 'Crear Producto')
 
@@ -18,18 +18,18 @@
 <form action="{{ route('productos.store') }}" method="POST">
     @csrf
     <div class="mb-3">
-        <label class="form-label">Nombre:</label>
-        <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control">
+        <label>Nombre:</label>
+        <input type="text" name="nombre" value="{{ old('nombre') }}" class="form-control" required>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Precio:</label>
-        <input type="number" name="precio" value="{{ old('precio') }}" class="form-control" step="0.01">
+        <label>Precio:</label>
+        <input type="number" name="precio" value="{{ old('precio') }}" class="form-control" required min="1">
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Categoría:</label>
-        <select name="categoria_id" class="form-select">
+        <label>Categoría:</label>
+        <select name="categoria_id" class="form-select" required>
             @foreach($categorias as $categoria)
                 <option value="{{ $categoria->id }}" @if(old('categoria_id')==$categoria->id) selected @endif>
                     {{ $categoria->nombre }}
@@ -38,7 +38,7 @@
         </select>
     </div>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
     <a href="{{ route('productos.index') }}" class="btn btn-secondary">Volver</a>
 </form>
 @endsection
