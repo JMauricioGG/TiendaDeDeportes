@@ -20,19 +20,15 @@ class ProductoController extends Controller
         return view('productos.create', compact('categorias'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio' => 'required|numeric',
-            'categoria_id' => 'required|exists:categorias,id',
-        ]);
+    public function store(Request $request) {
+    $request->validate([
+        'nombre' => 'required',
+        'categoria_id' => 'required',
+    ]);
+    Producto::create($request->all());
+    return redirect()->route('productos.index')->with('success', 'Producto creado correctamente');
+}
 
-        Producto::create($request->all());
-
-        return redirect()->route('productos.index')->with('success', 'Producto creado correctamente');
-    }
 
     public function edit($id)
     {
